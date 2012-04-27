@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 require "time"
 require "rexml/document"
+require "optparse"
 
 CASHE_DIR = ".svn_cache"
 unless File.exists?(CASHE_DIR)
@@ -14,8 +15,8 @@ else
 end
 
 def main(args)
-  if args["-r"]
-    revs = args["-r"].split(',').map{|e|
+  if args[:revisions]
+    revs = args[:revisions].split(',').map{|e|
       if e =~ /-/
         min,max = e.delete("r").split("-")
         (min..max).to_a
@@ -89,6 +90,11 @@ class CommitLog
     end
 end
 
-args = Hash[*ARGV]
-main(args)
+
+options = {}
+opt = OptionParser.new
+opt.on('-r VAL') {|v| options[:revisions] = v }
+opt.parse(ARGV)
+
+main(options)
 
