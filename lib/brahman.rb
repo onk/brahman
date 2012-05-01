@@ -28,7 +28,7 @@ module Brahman
         rev.delete("r")
       }.sort.join("\n")
     else
-      revs = `svn mergeinfo --show-revs eligible #{TRUNK_PATH}`.map{|rev|
+      revs = `svn mergeinfo --show-revs eligible #{TRUNK_PATH}`.split("\n").map{|rev|
         rev = rev.chomp
         rev.delete("r")
       }.sort.join("\n")
