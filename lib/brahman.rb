@@ -26,14 +26,14 @@ module Brahman
         end
       }.flatten.map{|rev|
         rev.delete("r")
-      }.sort.join("\n")
+      }.sort
     else
       revs = `svn mergeinfo --show-revs eligible #{TRUNK_PATH}`.split("\n").map{|rev|
         rev = rev.chomp
         rev.delete("r")
-      }.sort.join("\n")
+      }.sort
     end
-    revs.each_line do |rev|
+    revs.each do |rev|
       begin
         puts CommitLog.new(rev.chomp).to_s
       rescue
