@@ -1,4 +1,6 @@
 ## Brahman 0.0.3 (unreleased)
+*   support subcommand "merge".
+    this action need -r option for specific revisions.
 *   support subcommand "list".  don't skip subcommand to specify option.
 
     New command:

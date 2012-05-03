@@ -17,6 +17,7 @@ module Brahman
 
   # action
   #   :list
+  #   :merge
   def self.run(action, args)
     self.send(action, args)
   end
@@ -48,5 +49,10 @@ module Brahman
     end
   end
 
+  def self.merge(args)
+    raise "-r revision is required" unless args[:revisions]
+
+    puts `svn merge -c #{args[:revisions]} #{TRUNK_PATH}`
+  end
 end
 
