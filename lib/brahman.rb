@@ -15,7 +15,13 @@ module Brahman
     raise "trunk not found"
   end
 
-  def self.run(args)
+  # action
+  #   :list
+  def self.run(action, args)
+    self.send(action, args)
+  end
+
+  def self.list(args)
     if args[:revisions]
       revs = args[:revisions].split(',').map{|e|
         if e =~ /-/

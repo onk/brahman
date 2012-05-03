@@ -5,12 +5,13 @@ require "brahman"
 options = {}
 opt = OptionParser.new
 subopt = Hash.new {|hash, key|
-  $stderr.puts "no such subcommand: #{key}"
+  $stderr.puts "no such action: #{key}"
   exit 1
 }
 subopt["list"] = OptionParser.new.on("-r VAL") {|v| options[:revisions] = v}
 opt.order!(ARGV)
 
-subopt[ARGV.shift].parse(ARGV) unless ARGV.empty?
-Brahman.run(options)
+action = ARGV.shift || "list"
+subopt[action].parse(ARGV)
+Brahman.run(action.to_sym, options)
 
