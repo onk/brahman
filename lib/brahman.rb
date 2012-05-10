@@ -18,6 +18,7 @@ module Brahman
   # action
   #   :list
   #   :merge
+  #   :diff
   def self.run(action, args)
     self.send(action, args)
   end
@@ -53,6 +54,13 @@ module Brahman
     raise "-r revision is required" unless args[:revisions]
 
     puts `svn merge -c #{args[:revisions]} #{TRUNK_PATH}`
+  end
+
+  def self.diff(args)
+    raise "-r revision:revision is required" unless args[:revisions]
+    from, to = args[:revisions].split(":")
+    raise "-r revision:revision is required" unless (from and to)
+    puts `svn diff -r #{from}:#{to}`
   end
 end
 

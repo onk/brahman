@@ -8,8 +8,9 @@ subopt = Hash.new {|hash, key|
   $stderr.puts "no such action: #{key}"
   exit 1
 }
-subopt["list"] = OptionParser.new.on("-r VAL") {|v| options[:revisions] = v}
+subopt["list"]  = OptionParser.new.on("-r VAL") {|v| options[:revisions] = v}
 subopt["merge"] = OptionParser.new.on("-r VAL") {|v| options[:revisions] = v}
+subopt["diff"]  = OptionParser.new.on("-r VAL:VAL") {|v| options[:revisions] = v}
 opt.order!(ARGV)
 
 action = ARGV.shift || "list"
