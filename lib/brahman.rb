@@ -43,7 +43,8 @@ module Brahman
   def self.merge(args)
     raise "-r revision is required" unless args[:revisions]
 
-    puts `svn merge -c #{args[:revisions]} #{TRUNK_PATH}`
+    revs = Mergeinfo.str_to_list(args[:revisions])
+    puts `svn merge -c #{revs.join(',')} #{TRUNK_PATH}`
   end
 
   def self.diff(args)
