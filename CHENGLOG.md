@@ -1,4 +1,5 @@
 ## Brahman 0.0.3 (unreleased)
+*   brahman merge use --accept postpone for svn merge
 *   brahman merge, unnecessary to care order of revisions.
 *   Refactored.
 *   support subcommand "diff".
