@@ -1,4 +1,5 @@
 ## Brahman 0.0.3 (unreleased)
+*   Refactored.
 *   support subcommand "diff".
 *   support subcommand "merge".
     this action need -r option for specific revisions.

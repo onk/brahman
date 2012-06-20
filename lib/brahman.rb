@@ -2,6 +2,7 @@ require "time"
 require "rexml/document"
 require "brahman/version"
 require "brahman/commit_log"
+require "brahman/mergeinfo"
 
 module Brahman
   CASHE_DIR = ".svn_cache"
@@ -24,23 +25,12 @@ module Brahman
   end
 
   def self.list(args)
-    if args[:revisions]
-      revs = args[:revisions].split(',').map{|e|
-        if e =~ /-/
-          min,max = e.delete("r").split("-")
-          (min..max).to_a
-        else
-          e
-        end
-      }.flatten.map{|rev|
-        rev.delete("r")
-      }.sort
-    else
-      revs = `svn mergeinfo --show-revs eligible #{TRUNK_PATH}`.split("\n").map{|rev|
-        rev = rev.chomp
-        rev.delete("r")
-      }.sort
-    end
+    revs = if args[:revisions]
+             Mergeinfo.str_to_list(args[:revisions])
+           else
+             Mergeinfo.mergeinfo(TRUNK_PATH)
+           end
+
     revs.each do |rev|
       begin
         puts CommitLog.new(rev.chomp).to_s
