@@ -25,6 +25,14 @@ module Brahman
         rev.delete("r")
       }.sort
     end
+
+    # 数字が連続する場合にその箇所をハイフンにする
+    def self.hyphenize(nums)
+      nums.inject([]) { |arr, n| arr[n-1] = n; arr }
+      .chunk { |n| !n.nil? || nil }
+      .map { |_, gr| gr.size > 1 ? "#{gr.first}-#{gr.last}" : "#{gr.first}" }
+      .join(', ') + '.'
+    end
   end
 end
 
