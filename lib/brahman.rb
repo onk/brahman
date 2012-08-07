@@ -1,4 +1,5 @@
 require "time"
+require "logger"
 require "rexml/document"
 require "brahman/version"
 require "brahman/commit_log"
@@ -22,7 +23,9 @@ module Brahman
   #   :diff
   #   :mergeinfo_clean
   def self.run(action, args)
-    @verbose = true if args[:verbose]
+    @log = Logger.new(STDOUT)
+    @log.level = args[:verbose] ? Logger::DEBUG : Logger::INFO
+
     self.send(action, args)
   end
 
@@ -30,9 +33,9 @@ module Brahman
     if args[:revisions]
       revs = Mergeinfo.str_to_list(args[:revisions])
     else
-      puts "fetch mergeinfo ..." if @verbose
+      @log.debug "fetch mergeinfo ..."
       revs = Mergeinfo.mergeinfo(TRUNK_PATH)
-      puts "fetch mergeinfo done." if @verbose
+      @log.debug "fetch mergeinfo done."
     end
 
     revs.each do |rev|
@@ -49,7 +52,7 @@ module Brahman
 
     revs = Mergeinfo.str_to_list(args[:revisions])
     revs.each do |rev|
-      puts "merge #{rev} ..." if @verbose
+      @log.debug "merge #{rev} ..."
       puts `svn merge --accept postpone -c #{rev} #{TRUNK_PATH}`
       raise unless $?.success?
     end
@@ -61,9 +64,9 @@ module Brahman
     from, to = args[:revisions].split(":")
     raise "-r revision:revision is required" unless (from and to)
 
-    puts "fetch mergeinfo ..." if @verbose
+    @log.debug "fetch mergeinfo ..."
     not_merged_revisions = Mergeinfo.mergeinfo(TRUNK_PATH).map(&:to_i)
-    puts "fetch mergeinfo done." if @verbose
+    @log.debug "fetch mergeinfo done."
 
     full_arr = (from.to_i .. to.to_i).to_a
 
