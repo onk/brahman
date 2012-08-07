@@ -47,11 +47,5 @@ module Brahman
     puts `svn merge --accept postpone -c #{revs.join(',')} #{TRUNK_PATH}`
   end
 
-  def self.diff(args)
-    raise "-r revision:revision is required" unless args[:revisions]
-    from, to = args[:revisions].split(":")
-    raise "-r revision:revision is required" unless (from and to)
-    puts `svn diff -r #{from}:#{to}`
-  end
 end
 
