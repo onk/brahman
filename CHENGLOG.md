@@ -17,6 +17,8 @@
 
       1,4-5,7
 
+*   support --verbose option
+
 ## Brahman 0.0.3 (2012-06-20)
 *   brahman merge use --accept postpone for svn merge
 *   brahman merge, unnecessary to care order of revisions.

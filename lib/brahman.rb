@@ -22,15 +22,18 @@ module Brahman
   #   :diff
   #   :mergeinfo_clean
   def self.run(action, args)
+    @verbose = true if args[:verbose]
     self.send(action, args)
   end
 
   def self.list(args)
-    revs = if args[:revisions]
-             Mergeinfo.str_to_list(args[:revisions])
-           else
-             Mergeinfo.mergeinfo(TRUNK_PATH)
-           end
+    if args[:revisions]
+      revs = Mergeinfo.str_to_list(args[:revisions])
+    else
+      puts "fetch mergeinfo ..." if @verbose
+      revs = Mergeinfo.mergeinfo(TRUNK_PATH)
+      puts "fetch mergeinfo done." if @verbose
+    end
 
     revs.each do |rev|
       begin
@@ -45,7 +48,11 @@ module Brahman
     raise "-r revision is required" unless args[:revisions]
 
     revs = Mergeinfo.str_to_list(args[:revisions])
-    puts `svn merge --accept postpone -c #{revs.join(',')} #{TRUNK_PATH}`
+    revs.each do |rev|
+      puts "merge #{rev} ..." if @verbose
+      puts `svn merge --accept postpone -c #{rev} #{TRUNK_PATH}`
+      raise unless $?.success?
+    end
   end
 
   def self.mergeinfo_clean(args)
@@ -54,7 +61,10 @@ module Brahman
     from, to = args[:revisions].split(":")
     raise "-r revision:revision is required" unless (from and to)
 
+    puts "fetch mergeinfo ..." if @verbose
     not_merged_revisions = Mergeinfo.mergeinfo(TRUNK_PATH).map(&:to_i)
+    puts "fetch mergeinfo done." if @verbose
+
     full_arr = (from.to_i .. to.to_i).to_a
 
     puts Mergeinfo.hyphenize(full_arr - not_merged_revisions)
