@@ -6,11 +6,11 @@ require "brahman/commit_log"
 require "brahman/mergeinfo"
 
 module Brahman
-  CASHE_DIR = ".svn_cache"
-  unless File.exists?(CASHE_DIR)
-    Dir.mkdir(CASHE_DIR)
+  CACHE_DIR = ".svn_cache"
+  unless File.exists?(CACHE_DIR)
+    Dir.mkdir(CACHE_DIR)
   end
-  trunk_file = File.join(CASHE_DIR, "trunk")
+  trunk_file = File.join(CACHE_DIR, "trunk")
   if File.exists?(trunk_file)
     TRUNK_PATH = File.read(trunk_file)
   else

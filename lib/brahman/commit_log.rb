@@ -17,7 +17,7 @@ module Brahman
     end
 
     def self.svn_log(rev)
-      cache_path = File.join(Brahman::CASHE_DIR, rev)
+      cache_path = File.join(Brahman::CACHE_DIR, rev)
       if File.exists?(cache_path)
         log = File.read(cache_path)
       else
