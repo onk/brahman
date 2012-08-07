@@ -10,6 +10,7 @@ subopt = Hash.new {|hash, key|
 }
 subopt["list"]  = OptionParser.new.on("-r VAL") {|v| options[:revisions] = v}
 subopt["merge"] = OptionParser.new.on("-r VAL") {|v| options[:revisions] = v}
+subopt["mergeinfo_clean"] = OptionParser.new.on("-r VAL") {|v| options[:revisions] = v}
 opt.order!(ARGV)
 
 action = ARGV.shift || "list"

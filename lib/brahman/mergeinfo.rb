@@ -31,7 +31,7 @@ module Brahman
       nums.inject([]) { |arr, n| arr[n-1] = n; arr }
       .chunk { |n| !n.nil? || nil }
       .map { |_, gr| gr.size > 1 ? "#{gr.first}-#{gr.last}" : "#{gr.first}" }
-      .join(', ') + '.'
+      .join(',')
     end
   end
 end

@@ -20,6 +20,7 @@ module Brahman
   #   :list
   #   :merge
   #   :diff
+  #   :mergeinfo_clean
   def self.run(action, args)
     self.send(action, args)
   end
@@ -45,6 +46,18 @@ module Brahman
 
     revs = Mergeinfo.str_to_list(args[:revisions])
     puts `svn merge --accept postpone -c #{revs.join(',')} #{TRUNK_PATH}`
+  end
+
+  def self.mergeinfo_clean(args)
+    raise "-r revision:revision is required" unless args[:revisions]
+
+    from, to = args[:revisions].split(":")
+    raise "-r revision:revision is required" unless (from and to)
+
+    not_merged_revisions = Mergeinfo.mergeinfo(TRUNK_PATH).map(&:to_i)
+    full_arr = (from.to_i .. to.to_i).to_a
+
+    puts Mergeinfo.hyphenize(full_arr - not_merged_revisions)
   end
 
 end
