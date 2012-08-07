@@ -1,4 +1,4 @@
-## Brahman 0.0.4 (unreleased)
+## Brahman 0.0.4 (2012-08-08)
 *   remove diff subcommand
 *   support mergeinfo_clean subcommand
 
