@@ -15,8 +15,8 @@ module Brahman
   #   :diff
   #   :mergeinfo_clean
   def self.run(action, args)
-    @log = Logger.new(STDOUT)
-    @log.level = args[:verbose] ? Logger::DEBUG : Logger::INFO
+    @@log = Logger.new(STDOUT)
+    @@log.level = args[:verbose] ? Logger::DEBUG : Logger::INFO
     @@config = Config.load
     self.send(action, args)
   end
@@ -25,17 +25,22 @@ module Brahman
     @@config
   end
 
+  def self.log
+    @@log
+  end
+
   def self.list(args)
     if args[:revisions]
       revs = Mergeinfo.str_to_list(args[:revisions])
     else
-      @log.debug "fetch mergeinfo ..."
+      log.debug "fetch mergeinfo ..."
       revs = Mergeinfo.mergeinfo(config.parent_url)
-      @log.debug "fetch mergeinfo done."
+      log.debug "fetch mergeinfo done."
     end
 
     revs.each do |rev|
       begin
+        log.debug "fetch commitlog #{rev} ..."
         puts CommitLog.new(rev.chomp).to_s
       rescue
         next
@@ -48,7 +53,7 @@ module Brahman
 
     revs = Mergeinfo.str_to_list(args[:revisions])
     revs.each do |rev|
-      @log.debug "merge #{rev} ..."
+      log.debug "merge #{rev} ..."
       puts `svn merge --accept postpone -c #{rev} #{config.parent_url}`
       raise unless $?.success?
     end
@@ -60,9 +65,9 @@ module Brahman
     from, to = args[:revisions].split(":")
     raise "-r revision:revision is required" unless (from and to)
 
-    @log.debug "fetch mergeinfo ..."
+    log.debug "fetch mergeinfo ..."
     not_merged_revisions = Mergeinfo.mergeinfo(config.parent_url).map(&:to_i)
-    @log.debug "fetch mergeinfo done."
+    log.debug "fetch mergeinfo done."
 
     full_arr = (from.to_i .. to.to_i).to_a
 

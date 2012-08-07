@@ -1,3 +1,6 @@
+## Brahman 0.0.5 (unreleased)
+*   puts debug log on fetch commit log
+
 ## Brahman 0.0.4 (2012-08-08)
 *   remove diff subcommand
 *   support mergeinfo_clean subcommand
