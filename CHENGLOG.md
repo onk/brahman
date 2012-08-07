@@ -7,15 +7,15 @@
 
     if svn:mergeinfo is
 
-      trunk:1,5,7
+        trunk:1,5,7
 
     and non-merged revision is [2, 3, 6]
 
-      brahman mergeinfo_clean -r 1:7
+        brahman mergeinfo_clean -r 1:7
 
     will return
 
-      1,4-5,7
+        1,4-5,7
 
 *   support --verbose option
 *   use Logger for verbose output
