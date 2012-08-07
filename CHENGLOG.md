@@ -19,6 +19,13 @@
 
 *   support --verbose option
 *   use Logger for verbose output
+*   move .svn_cache to $HOME and use .brahman for project config
+
+    .brahman sample:
+
+        ---
+        :repository_url: svn+ssh://example.com/path/to/repos
+        :parent_path: /path/to/parent/branch
 
 ## Brahman 0.0.3 (2012-06-20)
 *   brahman merge use --accept postpone for svn merge

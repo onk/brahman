@@ -17,12 +17,12 @@ module Brahman
     end
 
     def self.svn_log(rev)
-      cache_path = File.join(Brahman::CACHE_DIR, rev)
+      cache_path = File.join(Brahman.config.cache_dir, rev)
       if File.exists?(cache_path)
         log = File.read(cache_path)
       else
-        log = `svn log -c #{rev} --xml #{Brahman::TRUNK_PATH}`
-
+        log = `svn log -c #{rev} --xml #{Brahman.config.parent_url}`
+        FileUtils.mkdir_p(Brahman.config.cache_dir)
         File.open(cache_path, "w") {|f| f.puts(log)}
       end
       log
