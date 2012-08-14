@@ -17,7 +17,7 @@ module Brahman
     end
 
     def self.svn_log(rev)
-      cache_path = File.join(Brahman.config.cache_dir, rev)
+      cache_path = self.cache_path(rev)
       if File.exists?(cache_path)
         log = File.read(cache_path)
       else
@@ -26,6 +26,10 @@ module Brahman
         File.open(cache_path, "w") {|f| f.puts(log)}
       end
       log
+    end
+
+    def self.cache_path(rev)
+      File.join(Brahman.config.cache_dir, (rev.to_i/1000).to_s, rev.to_s)
     end
 
     private

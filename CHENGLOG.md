@@ -1,5 +1,6 @@
 ## Brahman 0.0.5 (unreleased)
 *   puts debug log on fetch commit log
+*   Split caches by every 1000 revisions
 
 ## Brahman 0.0.4 (2012-08-08)
 *   remove diff subcommand
