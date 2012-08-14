@@ -41,7 +41,7 @@ module Brahman
     revs.each do |rev|
       begin
         log.debug "fetch commitlog #{rev} ..."
-        puts CommitLog.new(rev.chomp).to_s
+        puts CommitLog.new(rev.chomp, config.parent_url).to_s
       rescue
         next
       end

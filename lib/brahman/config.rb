@@ -1,13 +1,23 @@
 module Brahman
   class Config
-    attr_reader :parent_url, :cache_dir
+    attr_reader :parent_url
 
     def initialize(config)
-      raise unless config[:repository_url]
-      raise unless config[:parent_path]
+      @config = config
 
-      @parent_url = config[:repository_url] + config[:parent_path]
-      @cache_dir  = File.join(Brahman::Config::cache_dir, config[:parent_path])
+      raise unless @config[:repository_url]
+      raise unless @config[:parent_path]
+
+      @parent_url = @config[:repository_url] + @config[:parent_path]
+    end
+
+    def cache_dir(parent_path = nil)
+      parent_path ||= @config[:parent_path]
+      File.join(Brahman::Config.cache_dir, parent_path)
+    end
+
+    def url_to_path(url)
+      url.sub(@config[:repository_url], "")
     end
 
     def self.load
