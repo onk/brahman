@@ -20,6 +20,10 @@ subopt["mergeinfo_clean"] = OptionParser.new {|opts|
   opts.on("-r VAL")          { |v| options[:revisions] = v}
   opts.on("-v", "--verbose") { |v| options[:verbose] = true}
 }
+subopt["parent"]  = OptionParser.new {|opts|
+  opts.on("-r VAL")          { |v| options[:revisions] = v}
+  opts.on("-v", "--verbose") { |v| options[:verbose] = true}
+}
 
 opt.order!(ARGV)
 

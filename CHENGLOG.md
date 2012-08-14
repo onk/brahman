@@ -1,6 +1,9 @@
 ## Brahman 0.0.5 (unreleased)
 *   puts debug log on fetch commit log
 *   Split caches by every 1000 revisions
+*   support parent subcommand
+
+    add grandparent_path to PROJECT_HOME/.brahman
 
 ## Brahman 0.0.4 (2012-08-08)
 *   remove diff subcommand

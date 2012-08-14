@@ -30,18 +30,20 @@ module Brahman
   end
 
   def self.list(args)
+    parent_url = args[:parent_url] || config.parent_url
+
     if args[:revisions]
       revs = Mergeinfo.str_to_list(args[:revisions])
     else
       log.debug "fetch mergeinfo ..."
-      revs = Mergeinfo.mergeinfo(config.parent_url)
+      revs = Mergeinfo.mergeinfo(parent_url)
       log.debug "fetch mergeinfo done."
     end
 
     revs.each do |rev|
       begin
         log.debug "fetch commitlog #{rev} ..."
-        puts CommitLog.new(rev.chomp, config.parent_url).to_s
+        puts CommitLog.new(rev.chomp, parent_url).to_s
       rescue
         next
       end
@@ -74,5 +76,18 @@ module Brahman
     puts Mergeinfo.hyphenize(full_arr - not_merged_revisions)
   end
 
+  def self.parent(args)
+    raise "-r revision:revision is required" unless args[:revisions]
+
+    from, to = args[:revisions].split(":")
+    raise "-r revision:revision is required" unless (from and to)
+
+    log.debug "svn diff --depth empty -r #{from}:#{to}"
+    svn_diff = `svn diff --depth empty -r #{from}:#{to}`
+    grandparent_path = config.url_to_path(config.grandparent_url)
+    mergeinfo_str = Mergeinfo.mergeinfo_str_from_modified_diff(svn_diff, grandparent_path)
+    log.debug mergeinfo_str
+    self.list(revisions: mergeinfo_str, parent_url: config.grandparent_url)
+  end
 end
 

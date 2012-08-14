@@ -1,6 +1,6 @@
 module Brahman
   class Config
-    attr_reader :parent_url
+    attr_reader :parent_url, :grandparent_url
 
     def initialize(config)
       @config = config
@@ -9,6 +9,7 @@ module Brahman
       raise unless @config[:parent_path]
 
       @parent_url = @config[:repository_url] + @config[:parent_path]
+      @grandparent_url = @config[:repository_url] + @config[:grandparent_path]
     end
 
     def cache_dir(parent_path = nil)

@@ -26,6 +26,14 @@ module Brahman
       }.sort
     end
 
+    def self.mergeinfo_str_from_modified_diff(str, target_path)
+      merged_lines = str.split("Modified: svn:mergeinfo\n").last
+      merged_line = merged_lines.lines.detect {|l|
+        l =~ /#{target_path}:/
+      }.chomp
+      merged_line.split(":").last
+    end
+
     # 数字が連続する場合にその箇所をハイフンにする
     def self.hyphenize(nums)
       nums.inject([]) { |arr, n| arr[n-1] = n; arr }
