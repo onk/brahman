@@ -11,6 +11,7 @@ subopt = Hash.new {|hash, key|
 subopt["list"]  = OptionParser.new {|opts|
   opts.on("-r VAL")          { |v| options[:revisions] = v}
   opts.on("-v", "--verbose") { |v| options[:verbose] = true}
+  opts.on("--package")       { |v| options[:package] = true}
 }
 subopt["merge"] = OptionParser.new {|opts|
   opts.on("-r VAL")          { |v| options[:revisions] = v}
@@ -23,6 +24,7 @@ subopt["mergeinfo_clean"] = OptionParser.new {|opts|
 subopt["parent"]  = OptionParser.new {|opts|
   opts.on("-r VAL")          { |v| options[:revisions] = v}
   opts.on("-v", "--verbose") { |v| options[:verbose] = true}
+  opts.on("--package")       { |v| options[:package] = true}
 }
 
 opt.order!(ARGV)

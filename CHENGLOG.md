@@ -5,6 +5,10 @@
 
     add grandparent_path to PROJECT_HOME/.brahman
 
+*   support package access option for fetching many commit logs
+
+        brahman list -r 1,2,3 --package
+
 ## Brahman 0.0.4 (2012-08-08)
 *   remove diff subcommand
 *   support mergeinfo_clean subcommand

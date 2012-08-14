@@ -40,6 +40,12 @@ module Brahman
       log.debug "fetch mergeinfo done."
     end
 
+    if args[:package]
+      min_rev, max_rev = revs.minmax
+      log.debug "fetch commitlog #{min_rev}:#{max_rev} ..."
+      CommitLog.package_fetch(min_rev, max_rev, parent_url)
+    end
+
     revs.each do |rev|
       begin
         log.debug "fetch commitlog #{rev} ..."
@@ -87,7 +93,7 @@ module Brahman
     grandparent_path = config.url_to_path(config.grandparent_url)
     mergeinfo_str = Mergeinfo.mergeinfo_str_from_modified_diff(svn_diff, grandparent_path)
     log.debug mergeinfo_str
-    self.list(revisions: mergeinfo_str, parent_url: config.grandparent_url)
+    self.list(revisions: mergeinfo_str, parent_url: config.grandparent_url, package: args[:package])
   end
 end
 
