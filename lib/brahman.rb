@@ -62,6 +62,7 @@ module Brahman
     revs = Mergeinfo.str_to_list(args[:revisions])
     revs.each do |rev|
       log.debug "merge #{rev} ..."
+      self.list(revisions: rev)
       puts `svn merge --accept postpone -c #{rev} #{config.parent_url}`
       raise unless $?.success?
     end
