@@ -1,4 +1,4 @@
-## Brahman 0.0.5 (unreleased)
+## Brahman 0.0.5 (2012-09-03)
 *   puts debug log on fetch commit log
 *   Split caches by every 1000 revisions
 *   support parent subcommand
